@@ -1,13 +1,6 @@
 
-```
-./tasks/generate_create.js
-```
-
+This is examples of how to use Savvy API.
 
 ```
-./tasks/batch_create.js
-```
-
-```
-./tasks/generate_creative.js
+node index.js --realm_id <int> --token <token>
 ```

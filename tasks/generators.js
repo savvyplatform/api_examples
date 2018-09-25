@@ -2,36 +2,24 @@ const fs = require('fs')
 const request = require('request-promise-native')
 const config = require('../config')
 
-let argv = require("yargs").usage('Usage: $0 [options]').option('name', {
-  default: config.generator.name
-}).option('summary', {
-  alias: 'summary',
-  default: config.generator.summary
-}).option('realm_id', {
-  default: config.realm_id
-}).option('bundle', {
-  default: config.generator.bundle
-}).option('token', {
-  default: config.access_token
-}).help("help").argv;
-
-async function create(){
+async function create(realmId, token){
   let generator = null
   try{
     const result = await request.post({
       uri: `${config.savvy_api_url}/generators`,
       headers: {
-        'authorization': `Bearer ${argv.token}`
+        'authorization': `Bearer ${token}`
       },
       body: {
-        name: argv.name,
-        summary: argv.summary,
-        realm_id: argv.realm_id
+        name: config.generator.name,
+        summary: config.generator.summary,
+        realm_id: realmId
       },
       json: true
     })
     generator = result
   }catch(e){
+    if (!e.error || !e.error.error) throw e
     const err = e.error.error
     if (err.name === 'conflict_error'){
       console.warn(`use existing generator: ${err.conflict_id}`)
@@ -45,19 +33,23 @@ async function create(){
     const result = await request.post({
       uri: `${config.savvy_api_url}/generators/${generator.id}/assets?versioned=true`,
       headers: {
-        'authorization': `Bearer ${argv.token}`
+        'authorization': `Bearer ${token}`
       },
       formData: {
-        file: fs.createReadStream(argv.bundle)
+        file: fs.createReadStream(config.generator.bundle)
       },
       json: true
     })
      console.log(result)
   }catch(e){
-    console.error(e.error)
+    if (!e.error || !e.error.error) throw e
+    const err = e.error.error
+    if (err.name !== 'equal_previous_version'){
+      console.error(e.error)
+    }else{
+      console.warn(err.summary)
+    }
   }
+  return generator
 }
-
-(async function(){
-  await create()
-})()
+module.exports = {create}
