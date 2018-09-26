@@ -5,6 +5,7 @@ const generators = require('./tasks/generators')
 const campaigns = require('./tasks/campaigns')
 const batches = require('./tasks/batches')
 const creatives = require('./tasks/creatives')
+const supportingTicket = require('./tasks/supporting-ticket')
 
 let argv = require("yargs").usage('Usage: $0 [options]').option('realm_id', {
   demandOption: true,
@@ -43,7 +44,7 @@ function checkCreativeState(creativeId){
     }else{
       console.log(`build state: ${result.state}`)
       if (result.state === 'error'){
-        supportTicket.create(`creative build error ${creative.id}`, `please help us to check build error`)
+        supportingTicket.create(`creative build error ${creative.id}`, `please help us to check build error`)
       }
     }
   }

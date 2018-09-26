@@ -16,12 +16,12 @@ async function create(generator, campaign, realmId, token){
         realm_id: realmId,
         generator_id: generator.id,
         campaign_id: campaign.id,
-        notify_emails: config.creative.notify_emails,
+        notify_emails: config.notify_emails,
         outputs:[{
           name: 'default',
           width: 1280,
           height: 800,
-          formats: ['mp4']
+          format: 'mp4'
         }]
       },
       json: true
@@ -38,8 +38,9 @@ async function create(generator, campaign, realmId, token){
       return creative
     }
   }
+  const fields = {}
   try{
-    const files = ['./assets/batch/images/1.png', './assets/batch/images/2.png']
+    const files = ['./assets/batch/images/1.png']
     const result = await request.post({
       uri: `${config.savvy_api_url}/creatives/${creative.id}/assets`,
       headers: {
@@ -50,6 +51,7 @@ async function create(generator, campaign, realmId, token){
       },
       json: true
     })
+    fields['background']
   }catch(e){
     if (!e.error || !e.error.error) throw e
     const err = e.error.error

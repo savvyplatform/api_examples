@@ -1,15 +1,11 @@
 spec_version: "0.0.2"
 fields:
-  - name: changebg
+  - name: background
     type: "image"
     required: true
-  - name: changetext
+  - name: title
     type: "text"
     required: true
-  
-    
-  
-  
  
 output: "root"
 fusions:
@@ -17,9 +13,8 @@ fusions:
     file: "test.nk"
     output: "Write1"
     inputs:
-      - {field: "changebg", path: "dyn_image"}
-      - {field: "changetext", path: "dyn_text"}
-      
+      - {field: "background", path: "dyn_image"}
+      - {field: "title", path: "dyn_text"}
  
 samples:
   - {width:300, height: 300, video:{poster: 1}, image:{frames: [1, 10, 50]}}

@@ -106,12 +106,13 @@ Merge2 {
 }
 Write {
  name Write1
+ selected true
  xpos -124
- ypos 34
+ ypos 78
 }
 Viewer {
  frame_range 1-40
  name Viewer1
  xpos -124
- ypos 89
+ ypos 122
 }
