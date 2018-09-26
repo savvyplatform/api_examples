@@ -39,14 +39,15 @@ function checkCreativeState(creativeId){
       },
       json: true
     })
+    console.log(`build state:`, result)
     if (result.state !== 'error' && result.state !== 'built'){
       setTimeout(checker, 5000)
     }else{
-      console.log(`build state: ${result.state}`)
       if (result.state === 'error'){
-        supportingTicket.create(`creative build error ${creative.id}`, `please help us to check build error`)
+        supportingTicket.create(`creative build error ${creativeId}`, `please help us to check build error`)
       }
     }
   }
   setTimeout(checker, 5000)
+  checker()
 }

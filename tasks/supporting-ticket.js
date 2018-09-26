@@ -14,8 +14,6 @@ async function create(subject, content, realmId, token){
         subject: subject,
         content: content,
         realm_id: realmId,
-        generator_id: generator.id,
-        campaign_id: campaign.id,
         notify_emails: config.notify_emails
       },
       json: true

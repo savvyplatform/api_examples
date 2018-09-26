@@ -1,7 +1,7 @@
 module.exports = {
   realm_id: 97,
   savvy_api_url: 'http://localhost:9798',
-  notify_emails: ['chrislearn@kenorld.com'],
+  notify_emails: [],
   generator: {
     name: 'test_generator',
     summary: 'this is a test generator',
@@ -17,7 +17,6 @@ module.exports = {
   },
   batch: {
     name: 'test_batch',
-    summary: 'this is a test batch',
-    notify_emails: ['chrislearn@kenorld.com']
+    summary: 'this is a test batch'
   }
 }
