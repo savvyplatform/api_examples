@@ -2,13 +2,13 @@ const fs = require('fs')
 const request = require('request-promise-native')
 const config = require('../config')
 
-async function create(generator, campaign, realmId, token) {
+async function create(template, campaign, realmId, token) {
   let creative = {}
   //upload assets
   const fields = {}
   let files = null
   try {
-    const paths = ['./assets/batch/images/1.png']
+    const paths = ['./assets/batch/images/3.png']
     const result = await request.post({
       uri: `${config.savvy_api_url}/creatives/assets?realm_id=${realmId}`,
       headers: {
@@ -22,7 +22,7 @@ async function create(generator, campaign, realmId, token) {
     fields['background'] = {
       file: result.files[0].path
     }
-    files = result.files
+    files = result.files.map(f=>({path: f.path, hash: f.hash}))
   } catch (e) {
     if (!e.error || !e.error.error) throw e
     const err = e.error.error
@@ -32,7 +32,9 @@ async function create(generator, campaign, realmId, token) {
     name: 'default',
     width: 1280,
     height: 800,
-    format: 'mp4'
+    format: 'mp4',
+    min_bit_rate: '10Mbps',
+    max_bit_rate: '20Mbps'
   }]
   let conflicted = false
   try {
@@ -45,7 +47,7 @@ async function create(generator, campaign, realmId, token) {
         name: config.creative.name,
         summary: config.creative.summary,
         realm_id: realmId,
-        generator_id: generator.id,
+        template_id: template.id,
         campaign_id: campaign.id,
         notify_emails: config.notify_emails,
         fields,
@@ -84,7 +86,6 @@ async function create(generator, campaign, realmId, token) {
       return creative
     }
   }
-
 
   //build creative
   console.log("build creative")

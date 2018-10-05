@@ -3,27 +3,27 @@ const request = require('request-promise-native')
 const config = require('../config')
 
 async function create(realmId, token){
-  let generator = null
+  let template = null
   try{
     const result = await request.post({
-      uri: `${config.savvy_api_url}/generators`,
+      uri: `${config.savvy_api_url}/templates`,
       headers: {
         'authorization': `Bearer ${token}`
       },
       body: {
-        name: config.generator.name,
-        summary: config.generator.summary,
+        name: config.template.name,
+        summary: config.template.summary,
         realm_id: realmId
       },
       json: true
     })
-    generator = result
+    template = result
   }catch(e){
     if (!e.error || !e.error.error) throw e
     const err = e.error.error
     if (err.name === 'conflict_error'){
-      console.warn(`use existing generator: ${err.conflict_id}`)
-      generator = {id: err.conflict_id}
+      console.warn(`use existing template: ${err.conflict_id}`)
+      template = {id: err.conflict_id}
     }else{
       console.log(err.summary)
       return
@@ -31,12 +31,12 @@ async function create(realmId, token){
   }
   try{
     const result = await request.post({
-      uri: `${config.savvy_api_url}/generators/${generator.id}/assets?versioned=true`,
+      uri: `${config.savvy_api_url}/templates/${template.id}/assets?versioned=true`,
       headers: {
         'authorization': `Bearer ${token}`
       },
       formData: {
-        file: fs.createReadStream(config.generator.bundle)
+        file: fs.createReadStream(config.template.bundle)
       },
       json: true
     })
@@ -50,6 +50,6 @@ async function create(realmId, token){
       console.warn(err.summary)
     }
   }
-  return generator
+  return template
 }
 module.exports = {create}

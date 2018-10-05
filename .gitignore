@@ -1,3 +1,5 @@
 /node_modules
-/assets/generator/.tmp
-/assets/generator/*.nk~
+/assets/template/.tmp
+/assets/template/*.nk~
+/assets/batch/*.zip
+/assets/template/*.zip

@@ -6,7 +6,7 @@ async function create(subject, content, realmId, token){
   let ticket = {}
   try{
     const result = await request.post({
-      uri: `${config.savvy_api_url}/supporting-tickets`,
+      uri: `${config.savvy_api_url}/supporting_tickets`,
       headers: {
         'authorization': `Bearer ${token}`
       },
