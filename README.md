@@ -1,5 +1,5 @@
 
-This is examples of how to use Savvy API.
+Usage examples for the the Savvy API.
 
 ```
 node index.js --realm_id <int> --token <token>
@@ -8,8 +8,8 @@ Usage: index.js [options]
 
 Options:
   --version   Show version number                                      [boolean]
-  --realm_id  set realm id                                   [number] [required]
-  --token     set access token                                        [required]
+  --realm_id  Set realm id                                   [number] [required]
+  --token     Set access token                                        [required]
   --help      Show help                                                [boolean]
 ```
 
